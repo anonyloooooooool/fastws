@@ -1,4 +1,4 @@
-module github.com/dgrr/fastws
+module github.com/anonyloooooooool/fastws
 
 go 1.14
 
