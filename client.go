@@ -105,12 +105,12 @@ func DialTLS(url string, cnf *tls.Config) (*Conn, error) {
 	return dial(url, cnf, nil)
 }
 
-func DialWithInterface(url string, interfaceAddr net.Addr) (*Conn, error) {
+func DialWithHeadersAndInterface(url string, req *fasthttp.Request, interfaceAddr net.Addr) (*Conn, error) {
 	cnf := &tls.Config{
 		InsecureSkipVerify: true,
 		MinVersion:         tls.VersionTLS11,
 	}
-	return dialWithInterface(url, cnf, nil, interfaceAddr)
+	return dialWithInterface(url, cnf, req, interfaceAddr)
 }
 
 // DialWithHeaders establishes a websocket connection as client sending a personalized request.
