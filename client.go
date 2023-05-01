@@ -105,12 +105,12 @@ func DialTLS(url string, cnf *tls.Config) (*Conn, error) {
 	return dial(url, cnf, nil)
 }
 
-func DialWithHeadersAndInterface(url string, req *fasthttp.Request, interfaceAddr net.Addr) (*Conn, error) {
+func DialWithHeadersAndCustomDialer(url string, req *fasthttp.Request, customDialer *net.Dialer) (*Conn, error) {
 	cnf := &tls.Config{
 		InsecureSkipVerify: true,
 		MinVersion:         tls.VersionTLS11,
 	}
-	return dialWithInterface(url, cnf, req, interfaceAddr)
+	return dialWithInterface(url, cnf, req, customDialer)
 }
 
 // DialWithHeaders establishes a websocket connection as client sending a personalized request.
@@ -122,7 +122,7 @@ func DialWithHeaders(url string, req *fasthttp.Request) (*Conn, error) {
 	return dial(url, cnf, req)
 }
 
-func dialWithInterface(url string, cnf *tls.Config, req *fasthttp.Request, interfaceAddr net.Addr) (conn *Conn, err error) {
+func dialWithInterface(url string, cnf *tls.Config, req *fasthttp.Request, customDialer *net.Dialer) (conn *Conn, err error) {
 	uri := fasthttp.AcquireURI()
 	defer fasthttp.ReleaseURI(uri)
 	uri.Update(url)
@@ -143,8 +143,6 @@ func dialWithInterface(url string, cnf *tls.Config, req *fasthttp.Request, inter
 	}
 
 	var c net.Conn
-
-	customDialer := net.Dialer{LocalAddr: interfaceAddr}
 
 	if scheme == "http" {
 		c, err = customDialer.Dial("tcp", b2s(addr))
