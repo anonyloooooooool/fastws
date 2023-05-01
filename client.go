@@ -147,7 +147,7 @@ func dialWithInterface(url string, cnf *tls.Config, req *fasthttp.Request, custo
 	if scheme == "http" {
 		c, err = customDialer.Dial("tcp", b2s(addr))
 	} else {
-		c, err = tls.DialWithDialer(&customDialer, "tcp", b2s(addr), cnf)
+		c, err = tls.DialWithDialer(customDialer, "tcp", b2s(addr), cnf)
 	}
 	if err == nil {
 		conn, err = client(c, uri.String(), req)
