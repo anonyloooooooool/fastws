@@ -102,7 +102,7 @@ func releaseConn(conn *Conn) {
 }
 
 // DefaultPayloadSize defines the default payload size (when none was defined).
-const DefaultPayloadSize = 1 << 20
+const DefaultPayloadSize = 1 << 22
 
 // Reset resets conn values setting c as default connection endpoint.
 func (conn *Conn) Reset(c net.Conn) {
