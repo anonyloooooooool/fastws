@@ -8,6 +8,7 @@ import (
 	"errors"
 	"net"
 
+	"github.com/gookit/slog"
 	"github.com/valyala/fasthttp"
 )
 
@@ -72,6 +73,7 @@ func UpgradeAsClient(c net.Conn, url string, r *fasthttp.Request) error {
 		if res.StatusCode() != 101 ||
 			!equalsFold(res.Header.PeekBytes(upgradeString), websocketString) {
 			err = ErrCannotUpgrade
+			slog.Infof("err status code: %v", res.StatusCode())
 		}
 	}
 
